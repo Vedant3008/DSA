@@ -5,7 +5,7 @@ int pwr(int n, int m){
     if(m==0){
         return 1; 
     }
-    return n*pwr(n,m-1);
+    return pwr(n,m-1)*n;
 }
 
 int main(){
