@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <iostream>
+#include <cmath>
 using namespace std;
 
 class DynamicArray{
@@ -90,21 +91,44 @@ class DynamicArray{
             return -1;
         }
 
+        int BinarySearch(int Element){
+            int low = 0;
+            int high = size-1;
+            while(low<=high){
+                int mid = low+(high-low)/2;
+                if(Element==data[mid]){
+                    return mid;
+                }
+                else if(Element>data[mid]){
+                    low = mid + 1;
+                }
+                else{
+                    high = mid - 1;
+                }
+            }
+            return -1;
+        }
+
     private:
         void resize(){
-            int *NewArray = new int[capacity*2];
+            int newCapacity = capacity * 2;
+            int *newArray = new int[newCapacity];
             for(int i = 0; i<size; i++){
-                data[i] = NewArray[i];
+                newArray[i] = data[i];
             }
-            delete data;
+            delete[] data;
+            data = newArray;
+            capacity = newCapacity;
+            cout << "Resized! New capacity: " << capacity << endl;
         }
 
     public:
-        void Append(){
+        void Append(int value){
             if(size == capacity){
                 resize();
-                size++;
             }
+            data[size] = value;
+            size++; 
         }
 
     public:
@@ -123,4 +147,16 @@ int main(){
     a.Min();
     a.Average();
     cout<<"Index of required element is "<<a.LinearSearch(5)<<endl;
+    a.Append(6);
+    a.Set(0, 2);   
+    a.Set(1, 5);   
+    a.Set(2, 8);  
+    a.Append(10);  
+    a.Append(15);
+    a.Display();
+    cout << "Search for 8: " << a.BinarySearch(8) << endl;  
+    cout << "Search for 2: " << a.BinarySearch(2) << endl;  
+    cout << "Search for 15: " << a.BinarySearch(15) << endl;
+    cout << "Search for 7: " << a.BinarySearch(7) << endl;
+    cout<<"Binary Search result is "<<a.BinarySearch(6)<<endl;
 }
