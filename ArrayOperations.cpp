@@ -8,12 +8,14 @@ class DynamicArray{
         int *data;
         int capacity;
         int size;
+        int *newData;
     
     public:
         DynamicArray(){
             capacity = 8;
             size = 0;
             data = new int[capacity];
+            newData = new int[capacity];
 
             data[0] = 3;
             data[1] = 8;
@@ -43,7 +45,7 @@ class DynamicArray{
             if(index>=0 && index<size){
                 return data[index];
             }
-            return 0;
+            return -1;
         }
 
         void Set(int index, int value){
@@ -109,6 +111,65 @@ class DynamicArray{
             return -1;
         }
 
+        void Append(int value){
+            if(size == capacity){
+                resize();
+            }
+            data[size] = value;
+            size++; 
+        }
+
+        void Reverse(){
+            for(int i=size-1,j=0; i>=0; i--,j++){
+                newData[j] = data[i];
+            }
+            for(int i=0; i<size; i++){
+                data[i] = newData[i];
+            }
+        }
+
+        //Another method for reversing an array.
+        void Reverse2(){
+            for(int i=0,j=size-1; i<j; i++,j--){
+                int temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
+            }
+        }
+
+        void LeftShift(){
+            for(int i = 0; i<size-1; i++){
+                data[i] = data[i+1];
+            }
+        }
+
+        void RightShift(){
+            for(int i=size-1; i>0; i--){
+                data[i] = data[i-1];
+            }
+        }
+
+        void LeftRotate(){
+            int first = data[0];
+            for(int i = 0; i<size-1; i++){
+                data[i] = data[i+1];
+            }
+            data[size-1] = first;
+        }
+
+        int isSorted(){
+            for(int i=0; i<size; i++){
+                if(data[i]>data[i+1]){
+                    return false; 
+                }
+            }
+            return true;
+        }
+
+        ~DynamicArray(){
+            delete[] data;
+        }
+
     private:
         void resize(){
             int newCapacity = capacity * 2;
@@ -121,26 +182,12 @@ class DynamicArray{
             capacity = newCapacity;
             cout << "Resized! New capacity: " << capacity << endl;
         }
-
-    public:
-        void Append(int value){
-            if(size == capacity){
-                resize();
-            }
-            data[size] = value;
-            size++; 
-        }
-
-    public:
-        ~DynamicArray(){
-            delete[] data;
-        }
 };
 
 int main(){
     DynamicArray a;
     a.Print();
-    cout<<"Required element is: "<<a.Get(2)<<endl;
+    cout<<"Required element is: "<<a.Get(4)<<endl;
     a.Set(2,9);
     a.Display();
     a.Max();
@@ -154,9 +201,15 @@ int main(){
     a.Append(10);  
     a.Append(15);
     a.Display();
-    cout << "Search for 8: " << a.BinarySearch(8) << endl;  
-    cout << "Search for 2: " << a.BinarySearch(2) << endl;  
-    cout << "Search for 15: " << a.BinarySearch(15) << endl;
-    cout << "Search for 7: " << a.BinarySearch(7) << endl;
     cout<<"Binary Search result is "<<a.BinarySearch(6)<<endl;
+    a.Reverse();
+    a.Reverse2();
+    a.Display();
+    //a.LeftShift();
+    //a.Display();
+    // a.RightShift();
+    // a.Display();
+    a.LeftRotate();
+    a.Display();
+    cout<<"Is array Sorted?: "<<a.isSorted()<<endl;
 }
