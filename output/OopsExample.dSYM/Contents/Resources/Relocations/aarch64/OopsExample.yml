@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/vedantshah/Desktop/Master DSA/DSA/output/OopsExample'
+relocations:     []
+...
