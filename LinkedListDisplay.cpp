@@ -65,6 +65,58 @@ class LinkedList{
             }
         }
 
+        int Count(Node* temp){
+            int count = 0;
+            while(temp!=nullptr){
+                count++;
+                temp=temp -> next;
+            }
+            return count;
+        }
+
+        int RecursiveCount(Node* temp){
+            if(temp!=nullptr){
+                return RecursiveCount(temp->next)+1;
+            }
+            return 0;
+        }
+
+        int Sum(Node* temp){
+            int sum=0;
+            while(temp!=nullptr){
+                sum = sum+temp->data;
+                temp = temp->next;
+            }
+            return sum;
+        }
+
+        int SumRecursion(Node* temp){
+            if(temp!=nullptr){
+                return SumRecursion(temp->next)+temp->data;
+            }
+            return 0;
+        }
+
+        int MaxNum(Node* temp){
+            int max=INT_MIN;
+            while(temp!=nullptr){
+                if(temp->data>max){
+                    max=temp->data;
+                    temp=temp->next;
+                }
+            }
+            return max;
+        }
+
+        int RMaxNum(Node* temp){
+            int max = INT_MIN;
+            if(temp!=nullptr){
+                max=RMaxNum(temp->next);
+                return max>temp->data ? max : temp->data;
+            }
+            return max;
+        }
+
         ~LinkedList() {
             Node* temp;
             while (head) {
@@ -85,7 +137,14 @@ int main() {
     cout << "Linked List: ";
     list.display();
 
-    cout << "Reverse Linked List: ";
+    cout<<"Total Nodes: "<<list.Count(list.head)<<endl;
+    cout<<"Recursive Total Nodes: "<<list.RecursiveCount(list.head)<<endl;
+    cout<<"Sum is:"<<list.Sum(list.head)<<endl;
+    cout<<"Recursion Sum is: "<<list.SumRecursion(list.head)<<endl;
+    cout<<"Maximum number is: "<<list.MaxNum(list.head)<<endl;
+    cout<<"Recursive Maximum number is: "<<list.RMaxNum(list.head)<<endl;
+
+    cout << "Reverse Linked List: "<<endl;
     list.displayReverse(list.head);
 
     list.deleteByValue(20);
